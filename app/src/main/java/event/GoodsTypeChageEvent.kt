@@ -1,0 +1,3 @@
+package event
+
+class GoodsTypeChageEvent

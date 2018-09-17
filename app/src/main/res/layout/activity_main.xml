@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:layout_width="@dimen/x300"
+        android:layout_height="@dimen/y300"
+        android:background="@android:color/transparent"
+        android:layout_gravity="top|start"
+        android:id="@+id/id_main_log_button" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
+
+        <view.FillVideoView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible"
+            android:id="@+id/id_main_video_view"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible"
+            android:scaleType="fitXY"
+            android:id="@+id/id_main_image_view"/>
+
+    </FrameLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y500"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/y50"
+        android:background="@android:color/transparent"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/x80"
+        android:gravity="center_horizontal|bottom"
+        android:text="点击购买"
+        android:fontFamily="幼圆"
+        android:id="@+id/id_main_button"/>
+
+
+</FrameLayout>

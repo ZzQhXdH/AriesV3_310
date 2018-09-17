@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="colorShadow">#77000000</color>
+    <color name="colorMenuBackground">#8ACBC7</color>
+    <color name="colorButtonBackgroundUnPress">#E6C7BF</color>
+    <color name="colorButtonBackground">#FCAD84</color>
+    <color name="colorMenuTitleBackground">#3C2E3D</color>
+    <color name="colorTranslate">#AAFFFFFF</color>
+    <color name="colorHomeTitle">#3C2E3D</color>
+
+</resources>

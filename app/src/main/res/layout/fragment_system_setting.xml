@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_marginTop="@dimen/x50"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x100"
+        android:gravity="center"
+        android:textSize="@dimen/x40"
+        android:text="当前服务器:xxxxxx"
+        android:textColor="@android:color/black"
+        android:id="@+id/id_fragment_setting_text_view_current_url"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y100"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="地址选择:"
+            android:gravity="center"
+            android:textSize="@dimen/x40"
+            android:textColor="@android:color/black"
+            />
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/id_fragment_setting_spinner_url"
+            android:spinnerMode="dropdown"
+            android:layout_weight="1">
+        </Spinner>
+
+    </LinearLayout>
+
+    <Button
+        android:layout_marginTop="@dimen/y50"
+        android:layout_marginStart="@dimen/x50"
+        android:layout_marginEnd="@dimen/x50"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x150"
+        android:background="@drawable/selector_debug_button"
+        android:textSize="@dimen/x40"
+        android:textColor="@android:color/white"
+        android:id="@+id/id_fragment_setting_button_url"
+        android:text="确认域名"
+        />
+
+    <TextView
+        android:layout_marginTop="@dimen/x50"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x100"
+        android:gravity="center"
+        android:textSize="@dimen/x40"
+        android:text="当前串口:xxxxxx"
+        android:textColor="@android:color/black"
+        android:id="@+id/id_fragment_setting_text_view_current_serial_port"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y100"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="串口选择:"
+            android:gravity="center"
+            android:textSize="@dimen/x40"
+            android:textColor="@android:color/black"
+            />
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:spinnerMode="dropdown"
+            android:id="@+id/id_fragment_setting_spinner_serial_port"
+            android:layout_weight="1">
+        </Spinner>
+
+    </LinearLayout>
+
+    <Button
+        android:layout_marginTop="@dimen/y50"
+        android:layout_marginStart="@dimen/x50"
+        android:layout_marginEnd="@dimen/x50"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x150"
+        android:background="@drawable/selector_debug_button"
+        android:textSize="@dimen/x40"
+        android:textColor="@android:color/white"
+        android:id="@+id/id_fragment_setting_button_test"
+        android:text="确认串口"
+        />
+
+</LinearLayout>

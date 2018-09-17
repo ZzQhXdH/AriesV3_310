@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="@dimen/x800"
+        android:layout_height="@dimen/y1200"
+        android:layout_gravity="center"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:cardElevation="@dimen/x50"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="@dimen/x50">
+
+        <view.AutoDownCounterView
+            android:layout_width="@dimen/x600"
+            android:layout_height="@dimen/y600"
+            android:layout_gravity="center"
+            android:id="@+id/id_popup_system_ota_counter_view"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/y150"
+            android:textSize="@dimen/x60"
+            android:text="系统正在升级"
+            android:textColor="@android:color/holo_orange_light"
+            android:id="@+id/id_popup_system_ota_text_view"
+            android:gravity="center" />
+
+    </android.support.v7.widget.CardView>
+
+</FrameLayout>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="@dimen/x800"
+        android:layout_height="@dimen/y1200"
+        android:layout_gravity="center"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:cardBackgroundColor="@android:color/darker_gray"
+        app:cardElevation="@dimen/x50"
+        app:cardCornerRadius="@dimen/x50">
+
+        <ImageView
+            android:layout_width="@dimen/x500"
+            android:layout_height="@dimen/y500"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_error" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="停止服务"
+            android:layout_gravity="center_horizontal|bottom"
+            android:textSize="@dimen/x80"
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="@dimen/x100"
+            />
+
+    </android.support.v7.widget.CardView>
+
+</FrameLayout>

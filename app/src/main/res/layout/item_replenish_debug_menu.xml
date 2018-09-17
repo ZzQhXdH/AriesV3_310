@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="@dimen/x1000"
+    android:layout_height="@dimen/y120">
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="@dimen/x100"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@android:color/black"
+        android:layout_gravity="center"
+        android:textSize="@dimen/x40"
+        android:id="@+id/id_item_replenish_text_view_name"
+        android:text="name"
+        />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="@dimen/x100"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@android:color/holo_blue_bright"
+        android:textSize="@dimen/x40"
+        android:id="@+id/id_item_replenish_text_view_goods_type"
+        android:text="1-1"
+        />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="@dimen/x100"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/x40"
+        android:text="应补:21"
+        android:id="@+id/id_item_replenish_text_view_replenish_plan"
+        />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="@dimen/x100"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="@dimen/x40"
+        android:text="实补:21"
+        android:id="@+id/id_item_replenish_text_view_replenish_actual"
+        />
+
+    <Button
+        android:layout_width="@dimen/x100"
+        android:layout_height="@dimen/x100"
+        android:layout_gravity="center"
+        android:layout_marginEnd="@dimen/x10"
+        android:layout_marginStart="@dimen/x10"
+        android:background="@drawable/selector_item_debug_button"
+        android:text="@string/popup_change_add"
+        android:textSize="@dimen/x30"
+        android:textColor="@android:color/black"
+        android:id="@+id/id_item_replenish_button_add"
+        />
+
+    <Button
+        android:layout_width="@dimen/x100"
+        android:layout_height="@dimen/x100"
+        android:layout_marginEnd="@dimen/x10"
+        android:layout_gravity="center"
+        android:background="@drawable/selector_item_debug_button"
+        android:text="@string/popup_change_sub"
+        android:textSize="@dimen/x30"
+        android:id="@+id/id_item_replenish_button_sub"
+        android:textColor="@android:color/black"/>
+
+</LinearLayout>
