@@ -68,7 +68,9 @@ class MainActivity : AppCompatActivity()
 
     private val mButtonLogin: Button by lazy { findViewById<Button>(R.id.id_main_log_button) }
 
-    private var mVideoManager: VideoAndImageManager? = null
+    private val mVideoManager: VideoAndImageManager by lazy {
+         VideoAndImageManager(findViewById(R.id.id_main_video_view), findViewById(R.id.id_main_image_view))
+    }
 
     private val mNetwordView: NetworkStatusView by lazy {
         NetworkStatusView(findViewById<ImageView>(R.id.id_main_image_view_network_status),
@@ -93,8 +95,6 @@ class MainActivity : AppCompatActivity()
         mButtonLogin.setOnLongClickListener(::onEnterDebugLongClick)
 
         isInit = true
-
-        mVideoManager = VideoAndImageManager(findViewById(R.id.id_main_video_view), findViewById(R.id.id_main_image_view))
 
         Task.updateWaresInfo(5000)
         Task.DelayHandler.post(UpdateAdvTask())
@@ -147,7 +147,7 @@ class MainActivity : AppCompatActivity()
         }
         OTAManager.instance.updateOfCheck()
         VersionManager.checkUpdate()
-        mVideoManager?.resume()
+        mVideoManager.resume()
     }
 
     override fun onPause()
@@ -155,7 +155,7 @@ class MainActivity : AppCompatActivity()
         super.onPause()
         log("onPause")
         isShow = false
-        mVideoManager?.pause()
+        mVideoManager.pause()
     }
 
     override fun onDestroy()
@@ -289,7 +289,7 @@ class MainActivity : AppCompatActivity()
     @Subscribe(threadMode = ThreadMode.MAIN_ORDERED)
     fun onAdvChangeEvent(env: AdvChangeEvent)
     {
-        mVideoManager?.start()
+        mVideoManager.start()
     }
 
     private class VideoAndImageManager(private val videoView: FillVideoView, private val imageView: ImageView)
