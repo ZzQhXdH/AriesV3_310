@@ -180,7 +180,6 @@ class MainActivity : AppCompatActivity()
         App.ResetFlag = false
         val i = Intent(this, HomeActivity::class.java)
         startActivity(i)
-
     }
 
     private fun requestPermission()
@@ -278,6 +277,10 @@ class MainActivity : AppCompatActivity()
     fun onNetworkErrorEvent(env: NetworkErrorEvent)
     {
         showToast("网络错误", this)
+        if (isShow && !NetworkErrorPopupWindow.isShow)
+        {
+            NetworkErrorPopupWindow().show(mButtonGoBuy)
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN_ORDERED)

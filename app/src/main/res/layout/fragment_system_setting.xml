@@ -98,4 +98,17 @@
         android:text="确认串口"
         />
 
+    <Button
+        android:layout_marginTop="@dimen/y50"
+        android:layout_marginStart="@dimen/x50"
+        android:layout_marginEnd="@dimen/x50"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/x150"
+        android:background="@drawable/selector_debug_button"
+        android:textSize="@dimen/x40"
+        android:textColor="@android:color/white"
+        android:id="@+id/id_fragment_setting_button_open"
+        android:text="开门"
+        />
+
 </LinearLayout>

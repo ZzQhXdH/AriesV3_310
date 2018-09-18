@@ -9,6 +9,7 @@ import android.widget.*
 import android_serialport_api.SerialPortFinder
 import app.log
 import com.hontech.icecreamcustomclient.R
+import protocol.BaseProtocol
 import service.SerialPortManager
 import util.Http
 
@@ -20,6 +21,7 @@ class SystemSettingFragment : Fragment()
     private lateinit var mSpinnerSerialPort: Spinner
     private lateinit var mButtonTest: Button
     private lateinit var mButtonUrl: Button
+    private lateinit var mButtonOpenDoor: Button
 
     private var mSelectedUrl = ""
     private var mSelectedPath = ""
@@ -42,6 +44,7 @@ class SystemSettingFragment : Fragment()
         mSpinnerSerialPort = view.findViewById(R.id.id_fragment_setting_spinner_serial_port)
         mButtonTest = view.findViewById(R.id.id_fragment_setting_button_test)
         mButtonUrl = view.findViewById(R.id.id_fragment_setting_button_url)
+        mButtonOpenDoor = view.findViewById(R.id.id_fragment_setting_button_open)
 
         mAllUrls = context!!.resources.getStringArray(R.array.url_array)
 
@@ -51,6 +54,7 @@ class SystemSettingFragment : Fragment()
 
         mButtonTest.setOnClickListener(::onClickTest)
         mButtonUrl.setOnClickListener(::onClickUrl)
+        mButtonOpenDoor.setOnClickListener(::onClickOpenDoor)
 
         try {
             mAllSerialPorts = SerialPortFinder().allDevicesPath
@@ -93,6 +97,12 @@ class SystemSettingFragment : Fragment()
         {
             mSelectedPath = mAllSerialPorts!![position]
         }
+    }
+
+    private fun onClickOpenDoor(view: View)
+    {
+        val bytes = BaseProtocol(0x0F).build()
+        SerialPortManager.instance.write(bytes)
     }
 
     private fun onClickTest(view: View)

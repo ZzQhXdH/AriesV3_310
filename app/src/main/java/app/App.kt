@@ -75,7 +75,7 @@ class App: Application()
 
         AppContext = applicationContext
         Thread.setDefaultUncaughtExceptionHandler(::onException)
-        initApplication()
+        initJPush()
         SerialPortService.start(this)
 
         log("Mac地址:$MacAddress")
@@ -85,11 +85,6 @@ class App: Application()
         Task.DelayHandler.postDelayed(UpdateStatusTask(), 30000)
         Task.DelayHandler.post(HDMIManager)
         getVersion()
-    }
-
-    private fun initApplication()
-    {
-        initJPush()
     }
 }
 
