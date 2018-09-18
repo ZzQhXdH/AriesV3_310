@@ -160,12 +160,9 @@ fun ByteArray.toMacAddress(): String
 fun resetSystem()
 {
     val s = arrayOf("su", "-c", "reboot")
-    try
-    {
+    try {
         Runtime.getRuntime().exec(s).waitFor()
-    }
-    catch (e: Exception)
-    {
+    } catch (e: Exception) {
         e.printStackTrace()
     }
 }
@@ -173,12 +170,9 @@ fun resetSystem()
 fun closeSystem()
 {
     val s = arrayOf("su", "-c", "reboot -p")
-    try
-    {
+    try {
         Runtime.getRuntime().exec(s).waitFor()
-    }
-    catch (e: Exception)
-    {
+    } catch (e: Exception) {
         e.printStackTrace()
     }
 }
@@ -227,21 +221,18 @@ fun resetApp()
 
 fun getVersion(): String
 {
-    try
-    {
+    try {
         val info = App.AppContext.packageManager.getPackageInfo(App.AppContext.packageName, 0)
         log(info.versionName, "版本号")
         return info.versionName
-    }
-    catch (e: Exception)
-    {
+    } catch (e: Exception) {
         e.printStackTrace()
     }
     return "无法获取版本号"
 }
 
 /**
- * 获取线程名称
+ * 获取进程名称
  */
 fun getProcessName(context: Context = App.AppContext): String
 {
