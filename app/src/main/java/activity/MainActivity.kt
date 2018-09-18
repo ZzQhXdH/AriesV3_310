@@ -24,6 +24,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.VideoView
 import app.App
 
@@ -68,6 +69,11 @@ class MainActivity : AppCompatActivity()
     private val mButtonLogin: Button by lazy { findViewById<Button>(R.id.id_main_log_button) }
 
     private var mVideoManager: VideoAndImageManager? = null
+
+    private val mNetwordView: NetworkStatusView by lazy {
+        NetworkStatusView(findViewById<ImageView>(R.id.id_main_image_view_network_status),
+                findViewById<TextView>(R.id.id_main_text_view_network_status))
+    }
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -277,10 +283,7 @@ class MainActivity : AppCompatActivity()
     fun onNetworkErrorEvent(env: NetworkErrorEvent)
     {
         showToast("网络错误", this)
-        if (isShow && !NetworkErrorPopupWindow.isShow)
-        {
-            NetworkErrorPopupWindow().show(mButtonGoBuy)
-        }
+        mNetwordView.show()
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN_ORDERED)
@@ -452,6 +455,36 @@ class MainActivity : AppCompatActivity()
             Glide.with(imageView.context).load(picture.url).into(imageView)
             Task.UiHandler.postDelayed(this, picture.timeOut)
             isPlayVideo = false
+        }
+    }
+
+    private class NetworkStatusView(private val imageView: ImageView, private val textView: TextView) : Runnable
+    {
+        private var isShow = false
+
+        fun show()
+        {
+            if (isShow) {
+                Task.UiHandler.removeCallbacks(this)
+                Task.UiHandler.postDelayed(this, 10 * 1000)
+                return
+            }
+            isShow = true
+            imageView.visibility = View.VISIBLE
+            textView.visibility = View.VISIBLE
+            Task.UiHandler.postDelayed(this, 10 * 1000)
+        }
+
+        private inline fun hide()
+        {
+            isShow = false
+            imageView.visibility = View.GONE
+            textView.visibility = View.GONE
+        }
+
+        override fun run()
+        {
+            hide()
         }
     }
 
