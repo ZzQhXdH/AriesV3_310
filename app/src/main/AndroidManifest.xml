@@ -61,6 +61,8 @@
 
         <activity android:name="activity.DebugActivity" android:theme="@style/HomeTheme" android:screenOrientation="portrait"/>
 
+        <service android:name="service.ResetService"/>
+
         <receiver android:name="receiver.NetworkStateChangeReceiver">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>

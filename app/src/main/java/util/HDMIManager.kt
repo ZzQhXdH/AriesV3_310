@@ -114,15 +114,5 @@ object HDMIManager : Runnable
         getState()
         getConnect()
         getEdidRead()
-
-//        if (state) {
-//            disable()
-//            state = false
-//        } else {
-//            enable()
-//            state = true
-//        }
-
-        Task.DelayHandler.postDelayed(this, 10000)
     }
 }

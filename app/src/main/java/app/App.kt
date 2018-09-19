@@ -23,8 +23,12 @@ import java.net.NetworkInterface
 import android.support.v4.app.AlarmManagerCompat.setExact
 import android.os.Build
 import android.support.v4.app.AlarmManagerCompat.setAlarmClock
+import android.text.format.Time
+import service.ResetService
+import task.ResetTask
 import util.HDMIManager
-
+import java.text.SimpleDateFormat
+import java.util.*
 
 class App: Application()
 {
@@ -80,10 +84,10 @@ class App: Application()
 
         log("Mac地址:$MacAddress")
 
-        Task.DelayHandler.post(::restart)
-        Task.DelayHandler.post(UpdateTemperatureTask())
-        Task.DelayHandler.postDelayed(UpdateStatusTask(), 30000)
-        Task.DelayHandler.post(HDMIManager)
+        Task.DelayHandler.post(::restart) // 重启标志
+        Task.DelayHandler.post(UpdateTemperatureTask()) // 获取温度阈值
+        Task.DelayHandler.postDelayed(UpdateStatusTask(), 30000) // 更新状态
+        setResetSystem() // 设置重启
         getVersion()
     }
 }
@@ -201,14 +205,12 @@ fun resetApp()
 {
     log("开始重启App")
 
-    SerialPortService.stop()
-
     val i = Intent(App.AppContext, MainActivity::class.java)
     i.flags = Intent.FLAG_ACTIVITY_NEW_TASK
     val pi = PendingIntent.getActivity(App.AppContext, 0, i, 0)
     val am = App.AppContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-    am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 500, pi)
+    am.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 500, pi)
 
     App.finishAllActivity()
     android.os.Process.killProcess(android.os.Process.myPid())
@@ -249,4 +251,23 @@ fun getProcessName(context: Context = App.AppContext): String
 fun isBusy(): Boolean
 {
     return HomeActivity.isShow || DebugActivity.isShow
+}
+
+fun setResetSystem()
+{
+    val target = Calendar.getInstance()
+    target.set(Calendar.HOUR_OF_DAY, 3)
+    target.set(Calendar.MINUTE, 0)
+    target.set(Calendar.SECOND, 0)
+    val targetTime = target.timeInMillis
+
+    val currentTime = Calendar.getInstance().timeInMillis
+    val am = App.AppContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+    val intent = Intent(App.AppContext, ResetService::class.java)
+    val pi = PendingIntent.getService(App.AppContext, 0, intent, 0)
+
+    val resetTime = if (targetTime > currentTime) targetTime else targetTime + ResetTask.DAY_TIME
+    log("重启时间：$resetTime")
+
+    am.setExact(AlarmManager.RTC_WAKEUP, resetTime, pi)
 }

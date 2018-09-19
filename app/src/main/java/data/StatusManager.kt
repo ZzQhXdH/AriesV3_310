@@ -94,7 +94,7 @@ class StatusManager : PhoneStateListener()
         {
             Task.DelayHandler.post {
 
-                val ret = toJson()
+                val ret = toJson(1, 1, 1)
                 log(ret, "及时更新状态")
                 try {
                     Http.updateStatus(ret)
@@ -127,7 +127,7 @@ class StatusManager : PhoneStateListener()
 
     private inline fun fridge() = if (isFridgeClose()) "normal" else "error"
 
-    fun toJson(): String
+    fun toJson(s1: Int, s2: Int, s3: Int): String
     {
         val json = JSONObject()
 
@@ -140,8 +140,8 @@ class StatusManager : PhoneStateListener()
         json.put("ariesRSSI", mSignalStrength)
         json.put("troubleTemperature", temperatureNormal())
         json.put("macAddr", App.MacAddress)
-
-        if ( isDoorClose() && isFridgeClose() && (!mTemperatureFaultFlag) ) {
+        json.put("HDMI", "$s1-$s2-$s3")
+        if ( isDoorClose() && isFridgeClose() && (!mTemperatureFaultFlag) && (s1 == 1) && (s2 == 1) && (s3 == 1) ) {
             json.put("trouble", "false")
         } else {
             json.put("trouble", "true")
@@ -162,6 +162,7 @@ class StatusManager : PhoneStateListener()
         json.put("ariesDoorstatus", "close")
         json.put("ariesRSSI", "3")
         json.put("troubleTemperature", "false")
+        json.put("HDMI", "1-1-1")
         json.put("macAddr", App.MacAddress)
         json.put("trouble", "false")
 
@@ -194,9 +195,6 @@ class StatusManager : PhoneStateListener()
         {
             mSignalStrength = -1
         }
-
-        log("信号强度:$dbm")
-
         super.onSignalStrengthsChanged(signalStrength)
     }
 

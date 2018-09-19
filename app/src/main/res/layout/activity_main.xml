@@ -33,6 +33,7 @@
             android:layout_height="@dimen/y500"
             android:src="@drawable/ic_network_error2"
             android:layout_gravity="center"
+            android:visibility="gone"
             android:id="@+id/id_main_image_view_network_status"
             android:scaleType="centerCrop" />
 
@@ -42,6 +43,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/y300"
             android:textSize="@dimen/x80"
+            android:visibility="gone"
             android:textColor="@android:color/holo_red_light"
             android:text="抱歉，网络信号不好！"
             android:id="@+id/id_main_text_view_network_status"

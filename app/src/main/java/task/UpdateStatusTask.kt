@@ -4,6 +4,7 @@ import app.Task
 import app.log
 import app.startApp
 import data.StatusManager
+import util.HDMIManager
 import util.Http
 
 class UpdateStatusTask : Runnable
@@ -21,7 +22,10 @@ class UpdateStatusTask : Runnable
         }
 
         try {
-            val ret = StatusManager.instance.toJson()
+            val s1 = HDMIManager.getState()
+            val s2 = HDMIManager.getConnect()
+            val s3 = HDMIManager.getEdidRead()
+            val ret = StatusManager.instance.toJson(s1, s2, s3)
             log(ret, "更新状态")
             Http.updateStatus(ret)
         } catch (e: Exception) {
