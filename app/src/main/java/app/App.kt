@@ -123,8 +123,7 @@ inline fun log(msg: String, tag: String = "DEBUG")
 
 fun getLocalEthernetMacAddress(): String?
 {
-    try
-    {
+    try {
         val interfaces = NetworkInterface.getNetworkInterfaces()
         interfaces.iterator().forEach {
             if (it.name == "eth0")
@@ -132,9 +131,7 @@ fun getLocalEthernetMacAddress(): String?
                 return it.hardwareAddress.toMacAddress()
             }
         }
-    }
-    catch (e: Exception)
-    {
+    } catch (e: Exception) {
         e.printStackTrace()
     }
     return null
@@ -210,7 +207,7 @@ fun resetApp()
     val pi = PendingIntent.getActivity(App.AppContext, 0, i, 0)
     val am = App.AppContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-    am.setExact(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 500, pi)
+    am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 500, pi)
 
     App.finishAllActivity()
     android.os.Process.killProcess(android.os.Process.myPid())
@@ -269,5 +266,5 @@ fun setResetSystem()
     val resetTime = if (targetTime > currentTime) targetTime else targetTime + ResetTask.DAY_TIME
     log("重启时间：$resetTime")
 
-    am.setExact(AlarmManager.RTC_WAKEUP, resetTime, pi)
+    am.set(AlarmManager.RTC_WAKEUP, resetTime, pi)
 }

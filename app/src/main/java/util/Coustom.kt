@@ -10,13 +10,16 @@ import app.App
 
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.animation.GlideAnimation
+
 import com.bumptech.glide.request.target.SimpleTarget
 import com.hontech.icecreamcustomclient.R
 import com.wang.avi.AVLoadingIndicatorView
 
 
-private val MENU_IMAGE_WIDTH = App.AppContext.resources.getDimension(R.dimen.x900).toInt()
-private val MENU_IMAGE_HEIGHT = App.AppContext.resources.getDimension(R.dimen.y518).toInt()
+//private val MENU_IMAGE_WIDTH = App.AppContext.resources.getDimension(R.dimen.x900).toInt()
+//private val MENU_IMAGE_HEIGHT = App.AppContext.resources.getDimension(R.dimen.y518).toInt()
+private val MENU_IMAGE_WIDTH = App.AppContext.resources.getDimension(R.dimen.x300).toInt()
+private val MENU_IMAGE_HEIGHT = App.AppContext.resources.getDimension(R.dimen.y178).toInt()
 private val MENU_IMAGE_RADIUS = App.AppContext.resources.getDimension(R.dimen.x50).toInt()
 
 
@@ -78,6 +81,7 @@ fun ImageView.setImageNoSelectorAsync(url: String, loading: AVLoadingIndicatorVi
 
                 override fun onLoadFailed(e: java.lang.Exception?, errorDrawable: Drawable?)
                 {
+                    e?.printStackTrace()
                     val info = this@setImageNoSelectorAsync.getTag(R.id.imageId)
                     if ((info != null) && ((info as String)  == url))
                     {
@@ -122,6 +126,7 @@ fun ImageView.setImageAsync(url: String, loading: AVLoadingIndicatorView)
 
                 override fun onLoadFailed(e: java.lang.Exception?, errorDrawable: Drawable?)
                 {
+                    e?.printStackTrace()
                     val info = this@setImageAsync.getTag(R.id.imageId)
                     if ((info != null) && ((info as String)  == url))
                     {

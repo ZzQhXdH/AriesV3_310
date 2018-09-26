@@ -34,6 +34,7 @@ class StatusManager : PhoneStateListener()
     private var mSignalStrength = 0
     private var mFaultCount = 0
     private var mTemperatureFaultFlag = false
+    private var nUpdateCounter = 0
 
     private val mTelephonyManager = App.AppContext.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
 
@@ -43,6 +44,8 @@ class StatusManager : PhoneStateListener()
     }
 
     fun isEmpty() = mTemp.isEmpty()
+
+    fun getUpdateCounter() = nUpdateCounter
 
     fun set(min: Float, max: Float, time: Int)
     {
@@ -87,8 +90,8 @@ class StatusManager : PhoneStateListener()
         }
 
         mTemperatureFaultFlag = (mFaultCount > (nTimeOut / 5)) // 温度是否正常
-
-        log("FaultCount=$mFaultCount, State=$mState, Temp=$mTemp")
+        nUpdateCounter ++
+        log("FaultCount=$mFaultCount, State=$mState, Temp=$mTemp, update=$nUpdateCounter")
 
         if ( ((oldState != mState) || (oldTemperature != mTemperatureFaultFlag)) )
         {
@@ -165,6 +168,25 @@ class StatusManager : PhoneStateListener()
         json.put("HDMI", "1-1-1")
         json.put("macAddr", App.MacAddress)
         json.put("trouble", "false")
+
+        return json.toString()
+    }
+
+    fun toJsonOfError(s1: Int, s2: Int, s3: Int): String
+    {
+        val json = JSONObject()
+
+        json.put("ariesFridge", "error")
+        json.put("ariesPickMoto", "error")
+        json.put("ariesRobotArm1", "error")
+        json.put("ariesRobotArm2", "error")
+        json.put("ariesTemperature", "777")
+        json.put("ariesDoorstatus", "open")
+        json.put("ariesRSSI", "3")
+        json.put("troubleTemperature", "true")
+        json.put("HDMI", "$s1-$s2-$s3")
+        json.put("macAddr", App.MacAddress)
+        json.put("trouble", "true")
 
         return json.toString()
     }

@@ -22,9 +22,9 @@ object Http
   //  private const val TEST_URL = "http://hfrd.hontech-rdcenter.com:8080"
  //   var TEST_URL = "http://test.hontech-rdcenter.com:8080"
 
-    private val DEFAULT_URL = "http://test.hontech-rdcenter.com:8080"
+    private val DEFAULT_URL = "http://hfrd.hontech-rdcenter.com:8080"
 
-    var BASE_URL = "http://test.hontech-rdcenter.com:8080"
+    var BASE_URL = "http://hfrd.hontech-rdcenter.com:8080"
 
     private var QUERY_REFUND_URL = "$BASE_URL/bg-uc/jf/com/pm/searchRefundStatus.json" // 查询退款
         get() = "$BASE_URL/bg-uc/jf/com/pm/searchRefundStatus.json"
@@ -106,7 +106,6 @@ object Http
         BASE_URL = url
         StateSaveManager.saveString(BASE_URL_KEY, url)
     }
-
 
     private val mHttpClient = OkHttpClient.Builder()
                                           .connectTimeout(10, TimeUnit.SECONDS)

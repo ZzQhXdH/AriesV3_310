@@ -177,11 +177,11 @@ class MainActivity : AppCompatActivity()
 
     private fun onBuyClick(view: View)
     {
-        if (!StatusManager.instance.isDoorClose())
+/*        if (!StatusManager.instance.isDoorClose())
         {
             showToast("请先关闭大门", this)
             return
-        }
+        }*/
 
         App.ResetFlag = false
         val i = Intent(this, HomeActivity::class.java)

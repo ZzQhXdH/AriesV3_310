@@ -9,23 +9,29 @@ import util.Http
 
 class UpdateStatusTask : Runnable
 {
+    private var mCurrentCounter = -1
+
     override fun run()
     {
-        log("检测状态")
         startApp()
 
-        if (StatusManager.instance.isEmpty()) {
+        val counter = StatusManager.instance.getUpdateCounter()
 
-            log("温度为空, 请检查下位机")
-            Task.DelayHandler.postDelayed(this, 180 * 1000)
-            return
-        }
+        val err = if (mCurrentCounter == counter) true else false
+
+        mCurrentCounter = counter
 
         try {
             val s1 = HDMIManager.getState()
             val s2 = HDMIManager.getConnect()
             val s3 = HDMIManager.getEdidRead()
-            val ret = StatusManager.instance.toJson(s1, s2, s3)
+
+            val ret = if (err) {
+                StatusManager.instance.toJsonOfError(s1, s2, s3)
+            } else {
+                StatusManager.instance.toJson(s1, s2, s3)
+            }
+
             log(ret, "更新状态")
             Http.updateStatus(ret)
         } catch (e: Exception) {
