@@ -16,11 +16,9 @@ import com.hontech.icecreamcustomclient.R
 import com.wang.avi.AVLoadingIndicatorView
 
 
-//private val MENU_IMAGE_WIDTH = App.AppContext.resources.getDimension(R.dimen.x900).toInt()
-//private val MENU_IMAGE_HEIGHT = App.AppContext.resources.getDimension(R.dimen.y518).toInt()
-private val MENU_IMAGE_WIDTH = App.AppContext.resources.getDimension(R.dimen.x300).toInt()
-private val MENU_IMAGE_HEIGHT = App.AppContext.resources.getDimension(R.dimen.y178).toInt()
-private val MENU_IMAGE_RADIUS = App.AppContext.resources.getDimension(R.dimen.x50).toInt()
+private val MENU_IMAGE_WIDTH = App.AppContext.resources.getDimension(R.dimen.x900).toInt()
+private val MENU_IMAGE_HEIGHT = App.AppContext.resources.getDimension(R.dimen.y518).toInt()
+private val MENU_IMAGE_RADIUS = App.AppContext.resources.getDimension(R.dimen.x25).toInt()
 
 
 fun showToast(msg: String, context: Context = App.AppContext)

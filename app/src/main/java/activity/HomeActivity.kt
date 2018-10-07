@@ -183,25 +183,23 @@ class HomeActivity: AppCompatActivity()
     private class RecyclerViewItem(itemView: View): RecyclerView.ViewHolder(itemView)
     {
         private val mImageView = itemView.findViewById<ImageView>(R.id.id_item_image_view)
-        private val mCardView = itemView.findViewById<CardView>(R.id.id_item_card_view)
+        private val mLayout = itemView.findViewById<CardView>(R.id.id_item_frame_card_view)
         private val mTextViewHint = itemView.findViewById<TextView>(R.id.id_item_text_view_hint)
         private val mLoading = itemView.findViewById<AVLoadingIndicatorView>(R.id.id_item_loading)
-        private val mTextViewNumber = itemView.findViewById<TextView>(R.id.id_item_text_view_number)
 
         fun set(position: Int, onItemClick: (position: Int) -> Unit)
         {
             val info = WaresInfoManager.getWaresInfo(position)
             mImageView.setImageAsync(info.minImagePath, mLoading)
             val number = info.amount
-            mTextViewNumber.text = "$number"
             if (number <= 0)
             {
-                mCardView.setOnClickListener { }
+                mLayout.setOnClickListener { }
                 mTextViewHint.visibility = View.VISIBLE
                 return
             }
             mTextViewHint.visibility = View.GONE
-            mCardView.setOnClickListener { onItemClick(position) }
+            mLayout.setOnClickListener { onItemClick(position) }
         }
     }
 

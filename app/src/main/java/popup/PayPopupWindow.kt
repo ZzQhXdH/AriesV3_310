@@ -8,10 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.LinearInterpolator
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.PopupWindow
-import android.widget.TextView
+import android.widget.*
 import app.App
 import app.Task
 import app.log
@@ -40,7 +37,7 @@ class PayPopupWindow
     private val mWaresImage = mView.findViewById<ImageView>(R.id.id_popup_pay_wares_image_view)
     private val mWaresLoading = mView.findViewById<AVLoadingIndicatorView>(R.id.id_popup_pay_wares_loading)
     private val mQrCodeImage = mView.findViewById<ImageView>(R.id.id_popup_qrcode_image_view)
-    private val mQrCodeLoading = mView.findViewById<AVLoadingIndicatorView>(R.id.id_popup_qrcode_loading)
+    private val mProgressBar = mView.findViewById<ProgressBar>(R.id.id_popup_pay_progress_bar)
     private val mHintTextView = mView.findViewById<TextView>(R.id.id_popup_pay_descriptor_text_view)
     private val mButtonCancel = mView.findViewById<Button>(R.id.id_popup_pay_button_cancel)
     private val mPopupWindow = PopupWindow(mView, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT, false)
@@ -71,7 +68,7 @@ class PayPopupWindow
     @Subscribe(threadMode = ThreadMode.MAIN_ORDERED)
     fun onQrCodeImageEvent(env: QrCodeEvent)
     {
-        mQrCodeLoading.hide()
+        mProgressBar.visibility = View.GONE
 
         mQrCodeImage.visibility = View.VISIBLE
 
@@ -79,6 +76,7 @@ class PayPopupWindow
         {
             log("极光推送状态:${ServicePushReceiver.JPushConnected}")
             mQrCodeImage.setImageResource(R.drawable.ic_network_error2)
+            mHintTextView.text = "网络繁忙，请稍后再试！"
             Task.UiHandler.postDelayed({ mPopupWindow.dismiss() }, 5000)
             return
         }
@@ -93,7 +91,8 @@ class PayPopupWindow
         val info = WaresInfoManager.getSelectWaresInfo()
         mWaresImage.setImageNoSelectorAsync(info.maxImagePath, mWaresLoading)
         mHintTextView.text = "${info.name}:¥${info.price}"
-        mQrCodeLoading.show()
+        mQrCodeImage.visibility = View.GONE
+        mProgressBar.visibility = View.VISIBLE
     }
 
     fun showOfAsyncEvent(view: View)

@@ -87,7 +87,7 @@ class App: Application()
         Task.DelayHandler.post(::restart) // 重启标志
         Task.DelayHandler.post(UpdateTemperatureTask()) // 获取温度阈值
         Task.DelayHandler.postDelayed(UpdateStatusTask(), 30000) // 更新状态
-        setResetSystem() // 设置重启
+    //    setResetSystem() // 设置重启
         getVersion()
     }
 }
@@ -250,21 +250,21 @@ fun isBusy(): Boolean
     return HomeActivity.isShow || DebugActivity.isShow
 }
 
-fun setResetSystem()
-{
-    val target = Calendar.getInstance()
-    target.set(Calendar.HOUR_OF_DAY, 3)
-    target.set(Calendar.MINUTE, 0)
-    target.set(Calendar.SECOND, 0)
-    val targetTime = target.timeInMillis
-
-    val currentTime = Calendar.getInstance().timeInMillis
-    val am = App.AppContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-    val intent = Intent(App.AppContext, ResetService::class.java)
-    val pi = PendingIntent.getService(App.AppContext, 0, intent, 0)
-
-    val resetTime = if (targetTime > currentTime) targetTime else targetTime + ResetTask.DAY_TIME
-    log("重启时间：$resetTime")
-
-    am.set(AlarmManager.RTC_WAKEUP, resetTime, pi)
-}
+//fun setResetSystem()
+//{
+//    val target = Calendar.getInstance()
+//    target.set(Calendar.HOUR_OF_DAY, 3)
+//    target.set(Calendar.MINUTE, 0)
+//    target.set(Calendar.SECOND, 0)
+//    val targetTime = target.timeInMillis
+//
+//    val currentTime = Calendar.getInstance().timeInMillis
+//    val am = App.AppContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+//    val intent = Intent(App.AppContext, ResetService::class.java)
+//    val pi = PendingIntent.getService(App.AppContext, 0, intent, 0)
+//
+//    val resetTime = if (targetTime > currentTime) targetTime else targetTime + ResetTask.DAY_TIME
+//    log("重启时间：$resetTime")
+//
+//    am.set(AlarmManager.RTC_WAKEUP, resetTime, pi)
+//}

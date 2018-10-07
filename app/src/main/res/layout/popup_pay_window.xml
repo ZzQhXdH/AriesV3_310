@@ -16,7 +16,8 @@
             android:layout_height="@dimen/y400"
             android:layout_marginTop="@dimen/x50"
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            app:cardCornerRadius="@dimen/x50"
+            app:cardCornerRadius="@dimen/x25"
+            app:cardBackgroundColor="@android:color/white"
             android:layout_gravity="center">
 
             <ImageView
@@ -26,8 +27,8 @@
                 android:id="@+id/id_popup_pay_wares_image_view" />
 
             <com.wang.avi.AVLoadingIndicatorView
-                android:layout_width="@dimen/x400"
-                android:layout_height="@dimen/y400"
+                android:layout_width="@dimen/x350"
+                android:layout_height="@dimen/y350"
                 android:layout_gravity="center"
                 android:id="@+id/id_popup_pay_wares_loading"
                 app:indicatorColor="@android:color/holo_orange_light"
@@ -51,9 +52,9 @@
             <android.support.v7.widget.CardView
                 android:layout_width="@dimen/x400"
                 android:layout_height="@dimen/y400"
-
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 app:cardCornerRadius="@dimen/x20"
+                app:cardBackgroundColor="@android:color/white"
                 android:layout_gravity="center">
 
                 <ImageView
@@ -62,14 +63,11 @@
                     android:scaleType="fitXY"
                     android:id="@+id/id_popup_qrcode_image_view" />
 
-                <com.wang.avi.AVLoadingIndicatorView
+                <ProgressBar
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:id="@+id/id_popup_qrcode_loading"
-                    app:indicatorColor="@android:color/holo_orange_light"
-                    app:indicatorName="BallSpinFadeLoaderIndicator"
-                    />
+                    android:layout_margin="@dimen/x20"
+                    android:id="@+id/id_popup_pay_progress_bar" />
 
             </android.support.v7.widget.CardView>
 

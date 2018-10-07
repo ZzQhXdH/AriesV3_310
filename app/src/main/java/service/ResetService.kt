@@ -12,6 +12,6 @@ class ResetService : IntentService("Reset")
     override fun onHandleIntent(intent: Intent)
     {
         log("定时重启")
-        resetSystem()
+       // resetSystem()
     }
 }

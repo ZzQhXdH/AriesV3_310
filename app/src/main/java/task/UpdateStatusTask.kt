@@ -22,14 +22,10 @@ class UpdateStatusTask : Runnable
         mCurrentCounter = counter
 
         try {
-            val s1 = HDMIManager.getState()
-            val s2 = HDMIManager.getConnect()
-            val s3 = HDMIManager.getEdidRead()
-
             val ret = if (err) {
-                StatusManager.instance.toJsonOfError(s1, s2, s3)
+                StatusManager.instance.toJsonOfError(1, 1, 1)
             } else {
-                StatusManager.instance.toJson(s1, s2, s3)
+                StatusManager.instance.toJson(1, 1, 1)
             }
 
             log(ret, "更新状态")

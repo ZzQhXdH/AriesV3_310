@@ -17,7 +17,8 @@
             android:layout_height="@dimen/y400"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/x50"
-            app:cardCornerRadius="@dimen/x50">
+            app:cardBackgroundColor="@android:color/white"
+            app:cardCornerRadius="@dimen/x5">
 
             <ImageView
                 android:id="@+id/id_popup_pay_wares_image_view"

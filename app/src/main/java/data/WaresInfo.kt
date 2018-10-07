@@ -15,9 +15,7 @@ class WaresInfo(val name: String,
 
     init {
         var s = 0
-        goodsTypes.forEach {
-            s += if (it.isFault()) 0 else it.number
-        }
+        goodsTypes.forEach { s += it.number }
         amount = s
     }
 
