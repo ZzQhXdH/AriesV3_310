@@ -6,6 +6,7 @@ import android.telephony.SignalStrength
 import android.telephony.TelephonyManager
 import app.App
 import app.Task
+import app.getVersion
 import app.log
 import event.DoorStatusChangeEvent
 import org.greenrobot.eventbus.EventBus
@@ -97,10 +98,10 @@ class StatusManager : PhoneStateListener()
         {
             Task.DelayHandler.post {
 
-                val ret = toJson(1, 1, 1)
-                log(ret, "及时更新状态")
+                val content = toJsonOfTimely()
+                log(content, "STATUS")
                 try {
-                    Http.updateStatus(ret)
+                    Http.updateStatus(content)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -129,6 +130,41 @@ class StatusManager : PhoneStateListener()
     private inline fun door() = if (isDoorClose()) "close" else "open"
 
     private inline fun fridge() = if (isFridgeClose()) "normal" else "error"
+
+    fun toJsonOf3(): String // 3分钟发一次
+    {
+        val json = JSONObject()
+        json.put("macAddr", App.MacAddress)
+        json.put("houseTemperature", "12")
+        json.put("lowVersion", "1")
+        val version = getVersion()
+        json.put("clientVersion", version)
+        return json.toString()
+    }
+
+    fun toJsonOfTimely(): String // 状态发生变化的时候及时发生
+    {
+        val json = JSONObject()
+        json.put("macAddr", App.MacAddress) // MAC地址
+        json.put("ariesDoorstatus", door()) // 大门状态
+        json.put("ariesFridge", fridge()) // 冰箱门状态
+        json.put("ariesPickMoto", "normal") // 升降电机状态
+        json.put("ariesRSSI", mSignalStrength) // 信号强度
+        json.put("ariesRobotArm1", "normal") // 机械臂电机1
+        json.put("ariesRobotArm2", "normal") // 机械臂电机2
+        json.put("troubleTemperature", temperatureNormal()) // 温度是否异常
+        if ( isDoorClose() && isFridgeClose() && (!mTemperatureFaultFlag)) { // 正常
+            json.put("trouble", "false")
+            json.put("zt", "normal")
+        } else {
+            json.put("trouble", "true")
+            json.put("zt", "malfunction")
+        }
+        json.put("HDMI", "1-1-1")
+
+
+        return json.toString()
+    }
 
     fun toJson(s1: Int, s2: Int, s3: Int): String
     {
@@ -183,7 +219,7 @@ class StatusManager : PhoneStateListener()
         json.put("ariesTemperature", "777")
         json.put("ariesDoorstatus", "open")
         json.put("ariesRSSI", "3")
-        json.put("troubleTemperature", "true")
+        json.put("troubleTemperature", "false")
         json.put("HDMI", "$s1-$s2-$s3")
         json.put("macAddr", App.MacAddress)
         json.put("trouble", "true")

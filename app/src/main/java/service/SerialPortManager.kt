@@ -13,8 +13,8 @@ class SerialPortManager
     companion object
     {
         val instance: SerialPortManager by lazy { SerialPortManager() }
-        private const val DEFAULT_PATH = "/dev/ttyS3"
-       // private const val DEFAULT_PATH = "/dev/ttymxc2"
+       // private const val DEFAULT_PATH = "/dev/ttyS3"
+        private const val DEFAULT_PATH = "/dev/ttymxc2"
         private const val PATH_KEY = "path.key.serial_port"
     }
 

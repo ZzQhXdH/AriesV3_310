@@ -27,6 +27,8 @@ import android.text.format.Time
 import service.ResetService
 import task.ResetTask
 import util.HDMIManager
+import java.io.ByteArrayOutputStream
+import java.io.PrintStream
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -65,7 +67,16 @@ class App: Application()
     private fun onException(thread: Thread, throwable: Throwable)
     {
         throwable.printStackTrace()
-        resetApp()
+        val out = ByteArrayOutputStream()
+        val ps = PrintStream(out)
+        throwable.printStackTrace(ps)
+        ps.flush()
+        ps.close()
+        out.close()
+        val msg = out.toString("utf-8")
+        Logger.toFile(msg, "异常线程:${thread.name}-----")
+        Logger.updateException(msg)
+        Task.DelayHandler.post(::resetApp)
     }
 
     override fun onCreate()
@@ -87,8 +98,8 @@ class App: Application()
         Task.DelayHandler.post(::restart) // 重启标志
         Task.DelayHandler.post(UpdateTemperatureTask()) // 获取温度阈值
         Task.DelayHandler.postDelayed(UpdateStatusTask(), 30000) // 更新状态
-    //    setResetSystem() // 设置重启
-        getVersion()
+        setResetSystem() // 设置重启
+        Logger.updateVersion()
     }
 }
 
@@ -163,15 +174,15 @@ fun resetSystem()
     }
 }
 
-fun closeSystem()
-{
-    val s = arrayOf("su", "-c", "reboot -p")
-    try {
-        Runtime.getRuntime().exec(s).waitFor()
-    } catch (e: Exception) {
-        e.printStackTrace()
-    }
-}
+//fun closeSystem()
+//{
+//    val s = arrayOf("su", "-c", "reboot -p")
+//    try {
+//        Runtime.getRuntime().exec(s).waitFor()
+//    } catch (e: Exception) {
+//        e.printStackTrace()
+//    }
+//}
 
 
 fun installApk(path: String)
@@ -186,7 +197,7 @@ fun installApk(path: String)
     log("安装返回值:$v")
 }
 
-fun startApp()
+fun checkApplication()
 {
     log("MainActivity:${MainActivity.isShow}")
     log("HomeActivity:${HomeActivity.isShow}")
@@ -213,16 +224,16 @@ fun resetApp()
     android.os.Process.killProcess(android.os.Process.myPid())
 }
 
+fun getVersionCode(): Int
+{
+    val pi = App.AppContext.packageManager.getPackageInfo(App.AppContext.packageName, 0)
+    return pi.versionCode
+}
+
 fun getVersion(): String
 {
-    try {
-        val info = App.AppContext.packageManager.getPackageInfo(App.AppContext.packageName, 0)
-        log(info.versionName, "版本号")
-        return info.versionName
-    } catch (e: Exception) {
-        e.printStackTrace()
-    }
-    return "无法获取版本号"
+    val pi = App.AppContext.packageManager.getPackageInfo(App.AppContext.packageName, 0)
+    return pi.versionName
 }
 
 /**
@@ -245,26 +256,21 @@ fun getProcessName(context: Context = App.AppContext): String
     return ""
 }
 
-fun isBusy(): Boolean
+fun setResetSystem()
 {
-    return HomeActivity.isShow || DebugActivity.isShow
-}
+    val target = Calendar.getInstance()
+    target.set(Calendar.HOUR_OF_DAY, 3)
+    target.set(Calendar.MINUTE, 0)
+    target.set(Calendar.SECOND, 0)
+    val targetTime = target.timeInMillis
 
-//fun setResetSystem()
-//{
-//    val target = Calendar.getInstance()
-//    target.set(Calendar.HOUR_OF_DAY, 3)
-//    target.set(Calendar.MINUTE, 0)
-//    target.set(Calendar.SECOND, 0)
-//    val targetTime = target.timeInMillis
-//
-//    val currentTime = Calendar.getInstance().timeInMillis
-//    val am = App.AppContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-//    val intent = Intent(App.AppContext, ResetService::class.java)
-//    val pi = PendingIntent.getService(App.AppContext, 0, intent, 0)
-//
-//    val resetTime = if (targetTime > currentTime) targetTime else targetTime + ResetTask.DAY_TIME
-//    log("重启时间：$resetTime")
-//
-//    am.set(AlarmManager.RTC_WAKEUP, resetTime, pi)
-//}
+    val currentTime = Calendar.getInstance().timeInMillis
+    val am = App.AppContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+    val intent = Intent(App.AppContext, ResetService::class.java)
+    val pi = PendingIntent.getService(App.AppContext, 0, intent, 0)
+
+    val resetTime = if (targetTime > currentTime) targetTime else targetTime + ResetTask.DAY_TIME
+    log("重启时间：$resetTime")
+
+    am.set(AlarmManager.RTC_WAKEUP, resetTime, pi)
+}

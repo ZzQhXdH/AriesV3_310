@@ -1,11 +1,7 @@
 package activity
 
 import android.Manifest
-import android.animation.Animator
-import android.animation.AnimatorInflater
-import android.animation.ObjectAnimator
-import android.content.BroadcastReceiver
-import android.content.Context
+
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
@@ -49,7 +45,7 @@ import util.Http
 
 import util.showToast
 import view.FillVideoView
-
+import java.lang.Exception
 
 
 class MainActivity : AppCompatActivity()
@@ -59,7 +55,6 @@ class MainActivity : AppCompatActivity()
         private const val WRITE_EXTERNAL_REQ = 0x01
         const val ACTION_QUIT = "action.quit"
         var isShow = false
-        const val HDMI_ACTION = "android.intent.action.HDMI_PLUGGED"
     }
 
     private var isInit = false
@@ -83,7 +78,6 @@ class MainActivity : AppCompatActivity()
         App.addActivity(this)
         setContentView(R.layout.activity_main)
         requestPermission()
-        initHdmi()
     }
 
     private fun onInit()
@@ -101,23 +95,6 @@ class MainActivity : AppCompatActivity()
         Task.DelayHandler.post(UpdateSellStatusTask())
     }
 
-    private fun initHdmi()
-    {
-        val filter = IntentFilter(HDMI_ACTION)
-        registerReceiver(mHdmiReceiver, filter)
-    }
-
-    private val mHdmiReceiver = object: BroadcastReceiver()
-    {
-        override fun onReceive(context: Context, intent: Intent)
-        {
-            if (intent.action == HDMI_ACTION)
-            {
-                val ret = intent.getBooleanExtra("state", false)
-                log("HDMI 状态:$ret")
-            }
-        }
-    }
 
     override fun onStart()
     {
@@ -160,7 +137,6 @@ class MainActivity : AppCompatActivity()
 
     override fun onDestroy()
     {
-        unregisterReceiver(mHdmiReceiver)
         EventBus.getDefault().unregister(this)
         super.onDestroy()
         App.removeActivity(this)
@@ -182,7 +158,6 @@ class MainActivity : AppCompatActivity()
             showToast("请先关闭大门", this)
             return
         }*/
-
         App.ResetFlag = false
         val i = Intent(this, HomeActivity::class.java)
         startActivity(i)

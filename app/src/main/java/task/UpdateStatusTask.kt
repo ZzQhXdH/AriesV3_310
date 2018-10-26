@@ -2,38 +2,36 @@ package task
 
 import app.Task
 import app.log
-import app.startApp
+import app.checkApplication
 import data.StatusManager
-import util.HDMIManager
 import util.Http
+import util.Logger
+import java.lang.Exception
 
 class UpdateStatusTask : Runnable
 {
-    private var mCurrentCounter = -1
+
+    companion object
+    {
+        private const val TIME_OUT = 180 * 1000L
+    }
 
     override fun run()
     {
-        startApp()
-
-        val counter = StatusManager.instance.getUpdateCounter()
-
-        val err = if (mCurrentCounter == counter) true else false
-
-        mCurrentCounter = counter
+        checkApplication()
 
         try {
-            val ret = if (err) {
-                StatusManager.instance.toJsonOfError(1, 1, 1)
-            } else {
-                StatusManager.instance.toJson(1, 1, 1)
-            }
-
-            log(ret, "更新状态")
-            Http.updateStatus(ret)
+            val content = StatusManager.instance.toJsonOf3()
+            log(content, "STATUS")
+            val ret = Http.updateTemperatureOf3(content)
+            log(ret, "STATUS")
         } catch (e: Exception) {
             e.printStackTrace()
         }
 
-        Task.DelayHandler.postDelayed(this, 180 * 1000)
+        Logger.updateMemoryInfo()
+        Logger.updateCpuInto()
+
+        Task.DelayHandler.postDelayed(this, TIME_OUT)
     }
 }

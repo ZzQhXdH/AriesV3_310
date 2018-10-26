@@ -17,6 +17,7 @@ import android.widget.*
 import app.App
 import app.Task
 import app.getVersion
+
 import com.hontech.icecreamcustomclient.R
 import data.WaresInfoManager
 import event.GoodsTypeChageEvent

@@ -10,8 +10,8 @@ android {
         applicationId "com.hontech.icecreamcustomclient"
         minSdkVersion 17
         targetSdkVersion 27
-        versionCode 10
-        versionName "10"
+        versionCode 12
+        versionName "reset-new-state"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
             cmake {

@@ -77,6 +77,10 @@ object Http
     private var VIP_CHECK_CHARGE = "$BASE_URL/bg-uc/jf/com/free/updateVipPrice.json" // VIP扣款
         get() = "$BASE_URL/bg-uc/jf/com/free/updateVipPrice.json"
 
+    private var STATUS_3_URL = "http://10.1.8.34:8080/bg-uc/status/receiveAriesTemperature.json"
+
+    private val STATUS_TIMEDLY_URL = "http://10.1.8.34:8080/bg-uc/status/receiveAries.json"
+
 //    private val VIP_CHECK = "http://10.1.8.45:8080/bg-uc/jf/com/free/vipFree.json"
 //
 //    private val VIP_CHECK_CHARGE = "http://10.1.8.45:8080/bg-uc/jf/com/free/updateVipPrice.json"
@@ -90,8 +94,10 @@ object Http
 //    private var TEMPERATURE_URL = "http://192.168.1.119:8080/bg-uc/sbzt/give.json" // 获取温度
 
 
-    private const val ONE_NET_URL = "http://api.heclouds.com"
-    private const val ONE_NET_API_KEY = "7I8WxYzcadfwZ3jJiZZymv8ntWQ="
+    private const val ONE_NET_DEVICE_ID = "45997267"
+    private const val ONE_NET_URL = "http://api.heclouds.com/devices/$ONE_NET_DEVICE_ID/datapoints?type=3"
+    private const val ONE_NET_API_KEY = "uemfKfQDyDlm4A1svlCKrjgKREw="
+    private const val ONE_NET_USER_ID = "57839"
 
     private const val BASE_URL_KEY = "base.url.key"
 
@@ -115,13 +121,31 @@ object Http
 
     private val mediaType = MediaType.parse("application/json, charset=utf-8")
 
-    private fun post(url: String, content: String): String
+    fun post(url: String, content: String): String
     {
         val body = RequestBody.create(mediaType, content)
         val request = Request.Builder().url(url).post(body).build ()
         val call = mHttpClient.newCall(request)
         val response = call.execute()
         return response.body()?.string() ?: throw IOException("network error")
+    }
+
+
+    /**
+     * 3分钟发一次温度
+     */
+    fun updateTemperatureOf3(content: String) = post(STATUS_3_URL, content)
+
+    fun updateLogger(content: String)
+    {
+        val body = RequestBody.create(mediaType, content)
+        val request = Request.Builder()
+                .url(ONE_NET_URL)
+                .addHeader("api-key", ONE_NET_API_KEY)
+                .post(body)
+                .build()
+        val s = mHttpClient.newCall(request).execute().body()?.string() ?: ""
+        log(s)
     }
 
     /**
@@ -166,37 +190,7 @@ object Http
         return post(TEMPERATURE_URL, json.toString())
     }
 
-    fun updateStatus(json: String) = post(STATUS_URL, json)
-
-    fun newCreateDeviceOfOneNet(): String
-    {
-        val json = JSONObject()
-        json.put("title", App.MacAddress.replace(":", ""))
-        json.put("desc", "AriesClient")
-        json.put("private", true)
-
-        val body = RequestBody.create(mediaType, json.toString())
-        val request = Request.Builder()
-                .addHeader("api-key", ONE_NET_API_KEY)
-                .url("$ONE_NET_URL/devices")
-                .post(body).build()
-
-        val call = mHttpClient.newCall(request)
-        val response = call.execute()
-        val result = response.body()?.string() ?: throw IOException("net work error")
-
-        log(result)
-
-        val jsonObject = JSONObject(result)
-        val errno = jsonObject.optInt("errno")
-        if (errno != 0) {
-            throw IOException("add devices error")
-        }
-        val dataObject = jsonObject.optJSONObject("data")
-        val id = dataObject.optString("device_id")
-
-        return id
-    }
+    fun updateStatus(json: String) = post(STATUS_TIMEDLY_URL, json)
 
     fun checkIdAndPasswordOfEvent(id: String, password: String)
     {

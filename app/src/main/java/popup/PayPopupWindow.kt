@@ -44,7 +44,7 @@ class PayPopupWindow
     private val mAnimator = ValueAnimator.ofInt(100, 0)
 
     init {
-        mPopupWindow.animationStyle = R.style.PopupTheme
+        //mPopupWindow.animationStyle = R.style.PopupTheme
 
         mPopupWindow.isOutsideTouchable = false
 
